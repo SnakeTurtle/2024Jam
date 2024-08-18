@@ -13,6 +13,9 @@ public class characterMovements : MonoBehaviour
     private float move;
     private bool canJump;
     private bool charNormal =  true;
+    public Rigidbody2D grapplableObj;
+    private DistanceJoint2D grapple;
+    public LineRenderer _lineRenderer;
 
 
 
@@ -20,6 +23,8 @@ public class characterMovements : MonoBehaviour
     void Start()
     {
        rb = GetComponent<Rigidbody2D>();
+       grapple = GetComponent<DistanceJoint2D>();
+       grapple.enabled = false;
     }
 
     // Update is called once per frame
@@ -27,7 +32,7 @@ public class characterMovements : MonoBehaviour
     {
         //SCALING 
 
-        //to scale bigger
+        //to change sizes
         if (Input.GetKeyDown(KeyCode.E))
         {
             playerChange();
@@ -41,11 +46,25 @@ public class characterMovements : MonoBehaviour
         {
             playerJump();
         }
+
+
+        //GRAPPLE
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            playerGrapple();
+        }
+        if (grapple.enabled)
+        {
+            _lineRenderer.SetPosition(0, transform.position);
+        }
     }
 
 
 
     //Other Methods
+
+
+    //SCALE METHODS
 
     private void playerChange()
     {
@@ -70,6 +89,10 @@ public class characterMovements : MonoBehaviour
         charNormal = true;
     }
 
+
+
+
+    // MOVING & JUMP
     private void playerMovement()
     {
         move = Input.GetAxis("Horizontal");
@@ -89,6 +112,27 @@ public class characterMovements : MonoBehaviour
         }
         rb.AddForce(new Vector2(rb.velocity.x, jump));
         Debug.Log("jump");
+    }
+
+
+    //GRAPPLE
+    private void playerGrapple()
+    {
+        if(grapple.enabled)
+        {
+            grapple.enabled = false;
+            _lineRenderer.enabled = false;
+            Debug.Log("Grapple off");
+        }
+        else
+        {
+            _lineRenderer.SetPosition(0,transform.position);
+            _lineRenderer.SetPosition(1, grapplableObj.transform.position);
+            grapple.connectedAnchor = new Vector2(grapplableObj.transform.position.x, grapplableObj.transform.position.y);
+            grapple.enabled = true;
+            _lineRenderer.enabled = true;
+            Debug.Log("Grapple on");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
