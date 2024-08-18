@@ -16,6 +16,13 @@ public class characterMovements : MonoBehaviour
     public Rigidbody2D grapplableObj;
     private DistanceJoint2D grapple;
     public LineRenderer _lineRenderer;
+    public Animator animator;
+    public float dashRate = 2f;
+    float dashingTime = .1f;
+    public bool canDash;
+    public bool isDashing;
+    public float dashingPower = 24f;
+    public float dashingCooldown = 1f;
 
 
 
@@ -25,37 +32,49 @@ public class characterMovements : MonoBehaviour
        rb = GetComponent<Rigidbody2D>();
        grapple = GetComponent<DistanceJoint2D>();
        grapple.enabled = false;
+       animator.SetBool("isDashing", false);
     }
 
+
+    //INPUTS FOR MOVEMENT
     // Update is called once per frame
     void Update()
     {
-        //SCALING 
-
-        //to change sizes
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isDashing == false)
         {
-            playerChange();
+            //SCALING 
+
+            //to change sizes
+            if (Input.GetKeyDown(KeyCode.E) && canDash == true)
+            {
+                playerChange();
+            }
+
+
+            //MOVEMENT
+            playerMovement();
+
+            if (Input.GetKeyDown(KeyCode.W) && canJump)
+            {
+                playerJump();
+            }
+
+
+            //GRAPPLE
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                playerGrapple();
+            }
+            if (grapple.enabled)
+            {
+                _lineRenderer.SetPosition(0, transform.position);
+            }
         }
-  
-
-        //MOVEMENT
-        playerMovement();
-
-        if (Input.GetKeyDown(KeyCode.W) && canJump)
+        //DASH
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            playerJump();
-        }
-
-
-        //GRAPPLE
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            playerGrapple();
-        }
-        if (grapple.enabled)
-        {
-            _lineRenderer.SetPosition(0, transform.position);
+            StartCoroutine(playerDash());
+            playerNormal();
         }
     }
 
@@ -83,7 +102,7 @@ public class characterMovements : MonoBehaviour
         charNormal = false;
     }
 
-    private void playerNormal()
+    public void playerNormal()
     {
         gameObject.transform.localScale = new Vector3((float).4, (float)0.4, 1);
         charNormal = true;
@@ -93,13 +112,13 @@ public class characterMovements : MonoBehaviour
 
 
     // MOVING & JUMP
-    private void playerMovement()
+    public void playerMovement()
     {
         move = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(speed * move, rb.velocity.y);
     }
 
-    private void playerJump()
+    public void playerJump()
     {
         int jump;
         if (charNormal)
@@ -111,12 +130,11 @@ public class characterMovements : MonoBehaviour
             jump = 200;
         }
         rb.AddForce(new Vector2(rb.velocity.x, jump));
-        Debug.Log("jump");
     }
 
 
     //GRAPPLE
-    private void playerGrapple()
+    public void playerGrapple()
     {
         if(grapple.enabled)
         {
@@ -133,6 +151,38 @@ public class characterMovements : MonoBehaviour
             _lineRenderer.enabled = true;
             Debug.Log("Grapple on");
         }
+    }
+
+
+    //FOR DASH
+    IEnumerator playerDash()
+    {
+
+        animator.SetBool("isDashing", true);
+        //For Actual Dash
+        canDash = false;
+        isDashing = true;
+        float ogGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        if (move < 0)
+        {
+            rb.velocity = new Vector2(-1 * dashingPower, 0);
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else
+        {
+            rb.velocity = new Vector2(dashingPower, 0);
+            gameObject.transform.rotation = Quaternion.Euler(0,0,0);
+        }
+        Debug.Log("start dash");
+        yield return new WaitForSeconds(dashingTime);
+        isDashing = false;
+        rb.gravityScale = ogGravity;
+        animator.SetBool("isDashing", false);
+        Debug.Log("finished dash");
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
+        Debug.Log("ready to dash");
     }
 
     private void OnCollisionEnter2D(Collision2D other)

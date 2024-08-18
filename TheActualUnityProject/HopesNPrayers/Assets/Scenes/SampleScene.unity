@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 101480899}
   - component: {fileID: 101480898}
   - component: {fileID: 101480897}
+  - component: {fileID: 101480904}
   m_Layer: 0
   m_Name: 'Character '
   m_TagString: Untagged
@@ -159,6 +160,12 @@ MonoBehaviour:
   speed: 5
   grapplableObj: {fileID: 445096272}
   _lineRenderer: {fileID: 101480898}
+  animator: {fileID: 101480904}
+  dashRate: 2
+  canDash: 0
+  isDashing: 0
+  dashingPower: 24
+  dashingCooldown: 1
 --- !u!120 &101480898
 LineRenderer:
   serializedVersion: 2
@@ -422,6 +429,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &101480904
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101480895}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 48dec322921c72545aaa1e6d0a05bd20, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &445096270
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +461,6 @@ GameObject:
   - component: {fileID: 445096274}
   - component: {fileID: 445096273}
   - component: {fileID: 445096272}
-  - component: {fileID: 445096275}
   m_Layer: 0
   m_Name: Grapple
   m_TagString: Untagged
@@ -535,18 +562,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &445096275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445096270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a0b05658d309d40a21eea1a352608c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
