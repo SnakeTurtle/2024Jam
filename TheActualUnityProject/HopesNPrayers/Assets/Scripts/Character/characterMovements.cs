@@ -15,7 +15,7 @@ public class characterMovements : MonoBehaviour
     private bool charNormal =  true;
     public Rigidbody2D grapplableObj;
     private DistanceJoint2D grapple;
-    public LineRenderer _lineRenderer; 
+    public LineRenderer _lineRenderer;
 
 
 
@@ -32,7 +32,7 @@ public class characterMovements : MonoBehaviour
     {
         //SCALING 
 
-        //to scale bigger
+        //to change sizes
         if (Input.GetKeyDown(KeyCode.E))
         {
             playerChange();
@@ -63,6 +63,9 @@ public class characterMovements : MonoBehaviour
 
     //Other Methods
 
+
+    //SCALE METHODS
+
     private void playerChange()
     {
         if (charNormal)
@@ -86,6 +89,10 @@ public class characterMovements : MonoBehaviour
         charNormal = true;
     }
 
+
+
+
+    // MOVING & JUMP
     private void playerMovement()
     {
         move = Input.GetAxis("Horizontal");
@@ -107,6 +114,8 @@ public class characterMovements : MonoBehaviour
         Debug.Log("jump");
     }
 
+
+    //GRAPPLE
     private void playerGrapple()
     {
         if(grapple.enabled)
