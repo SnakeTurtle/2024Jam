@@ -6,11 +6,15 @@ TagManager:
   tags:
   - Ground
   - Grappable
+  - FightRoom
+  - FightFinished
+  - Scalable
+  - DeScalable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
