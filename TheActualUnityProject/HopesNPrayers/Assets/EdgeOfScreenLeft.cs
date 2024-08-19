@@ -18,7 +18,7 @@ public class EdgeOfScreen : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Player"))
+        if (other.gameObject.tag.Equals("Player") && !CameraManager.instance.inFight)
         {
             CameraManager.instance.moveCamLeft();
         }

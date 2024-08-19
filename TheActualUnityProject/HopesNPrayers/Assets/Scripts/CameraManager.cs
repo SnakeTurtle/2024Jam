@@ -8,6 +8,7 @@ public class CameraManager : MonoBehaviour
     public static CameraManager instance;
     public int currentPos=0;
     public Transform mainCam;
+    public bool inFight = false;
     
     void Start()
     {
@@ -17,7 +18,7 @@ public class CameraManager : MonoBehaviour
 
     public void moveCamLeft()
     {
-        if (currentPos > 0)
+        if (currentPos > 0 && !inFight)
         {
             mainCam.position = Vector3.MoveTowards(mainCam.position, positions[currentPos - 1].position, Vector3.Distance(mainCam.position, positions[currentPos - 1].position));
             currentPos--;
@@ -26,16 +27,34 @@ public class CameraManager : MonoBehaviour
     }
     public void moveCamRight()
     {
-        if (currentPos < positions.Count-1)
+        if (currentPos < positions.Count-1 && !inFight)
         {
             mainCam.position = Vector3.MoveTowards(mainCam.position, positions[currentPos + 1].position,Vector3.Distance(mainCam.position, positions[currentPos + 1].position));
             currentPos++;
+            if (positions[currentPos].gameObject.tag.Equals("FightRoom"))
+            {
+                inFight = true;
+                mainCam.GetChild(0).GetComponent<BoxCollider2D>().isTrigger = false;
+                mainCam.GetChild(1).GetComponent<BoxCollider2D>().isTrigger = false;
+            }
+            
         }
         
     }
     
+    public void endFight()
+    {
+        positions[currentPos].gameObject.tag = "FightFinished";
+        inFight = false;
+        mainCam.GetChild(0).GetComponent<BoxCollider2D>().isTrigger = true;
+        mainCam.GetChild(1).GetComponent<BoxCollider2D>().isTrigger = true;
+    }
+
     void Update()
     {
-        
+        if (inFight && Input.GetKeyDown(KeyCode.Space))
+        {
+            endFight();
+        }
     }
 }

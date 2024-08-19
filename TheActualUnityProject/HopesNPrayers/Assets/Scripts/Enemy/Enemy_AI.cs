@@ -1,53 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Enemy_AI : MonoBehaviour
 {
 
     public float viewDistance;
-    public GameObject eyeBalls;
-    LayerMask player;
+    public bool playerFound = false;
+    public Transform player;
 
+    public float speed = 1f;
     void Start()
     {
-        eyeBalls = gameObject.transform.GetChild(0).gameObject;
-        player = LayerMask.GetMask("Player");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        FindPlayer();
-        GetBigger();
-    }
-
-    private void FindPlayer()
-    {
-        bool hit = Physics2D.Raycast(eyeBalls.transform.position, Vector2.right, viewDistance,player);
-        if (hit)
+        if (playerFound)
         {
-            Debug.Log("PlayerFound");
-        }
-        else
-        {
-            Debug.Log("Player not found");
-        }
-    }
-    private void GetBigger()
-    {
-        bool a = Input.GetKeyDown(KeyCode.G);
-        if (a)
-        {
-            gameObject.transform.localScale = new Vector3(3, 4, 3);
+            TrackPlayer();
         }
     }
 
-
-
-    private void OnDrawGizmos()
+    void TrackPlayer()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(eyeBalls.transform.position, Vector2.right * viewDistance);
+        float distance = Vector2.Distance(transform.position, player.position);
+        Vector2 direction = player.position - transform.position;
+
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag.Equals("Player"))
+        {
+            player = other.gameObject.transform;
+            playerFound = true;
+            print("gamin");
+        }
+    }
+
+
 }
