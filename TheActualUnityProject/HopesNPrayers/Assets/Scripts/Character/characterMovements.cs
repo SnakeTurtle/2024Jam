@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
@@ -18,21 +20,25 @@ public class characterMovements : MonoBehaviour
     public LineRenderer _lineRenderer;
     public Animator animator;
     public float dashRate = 2f;
-    float dashingTime = .1f;
+    float dashingTime = .2f;
     public bool canDash;
-    public bool isDashing;
-    public float dashingPower = 24f;
+    public bool isDashing = false;
+    public float dashingPower = 20f;
     public float dashingCooldown = 1f;
-
+    private bool keepMom = false;
+    Boolean swungRight = true, swungLeft = true;
+    BoxCollider2D playerCollider;
 
 
     // Start is called before the first frame update
     void Start()
     {
+       canDash = true;
        rb = GetComponent<Rigidbody2D>();
        grapple = GetComponent<DistanceJoint2D>();
        grapple.enabled = false;
        animator.SetBool("isDashing", false);
+       playerCollider = GetComponent<BoxCollider2D>();
     }
 
 
@@ -40,6 +46,7 @@ public class characterMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(canDash);
         if (isDashing == false)
         {
             //SCALING 
@@ -52,7 +59,16 @@ public class characterMovements : MonoBehaviour
 
 
             //MOVEMENT
-            playerMovement();
+            if (grapple.enabled)
+            {
+                grappleMovement();
+            }
+            else{
+                if (keepMom == false)
+                {
+                    playerMovement();
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.W) && canJump)
             {
@@ -71,10 +87,11 @@ public class characterMovements : MonoBehaviour
             }
         }
         //DASH
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && grapple.enabled == false && canDash)
         {
             StartCoroutine(playerDash());
             playerNormal();
+            Debug.Log("dashed");
         }
     }
 
@@ -136,10 +153,12 @@ public class characterMovements : MonoBehaviour
     //GRAPPLE
     public void playerGrapple()
     {
+        keepMom = false;
         if(grapple.enabled)
         {
             grapple.enabled = false;
             _lineRenderer.enabled = false;
+            keepMom = true;
             Debug.Log("Grapple off");
         }
         else
@@ -160,29 +179,53 @@ public class characterMovements : MonoBehaviour
 
         animator.SetBool("isDashing", true);
         //For Actual Dash
+        keepMom = false;
         canDash = false;
         isDashing = true;
-        float ogGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        if (move < 0)
+        playerCollider.size = new Vector2(2.33885f, 0.454273f);
+        playerCollider.offset = new Vector2(-0.26922f, 0.0003638f);
+
+        //direction of dash
+        if (move < 0 || Input.GetKey(KeyCode.A))
         {
             rb.velocity = new Vector2(-1 * dashingPower, 0);
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
         }
-        else
+        else if (move>=0 || Input.GetKey(KeyCode.D))
         {
             rb.velocity = new Vector2(dashingPower, 0);
             gameObject.transform.rotation = Quaternion.Euler(0,0,0);
         }
         Debug.Log("start dash");
+
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
-        rb.gravityScale = ogGravity;
+        rb.gravityScale = 1f;
         animator.SetBool("isDashing", false);
+        playerCollider.size = new Vector2(1, 1);
+        playerCollider.offset = new Vector2(0,0);
         Debug.Log("finished dash");
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
         Debug.Log("ready to dash");
+    }
+
+
+    private void grappleMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.D) && swungLeft)
+        {
+            rb.velocity = new Vector2(6, 0);
+            swungLeft = false;
+            swungRight = true;
+        }
+        if (Input.GetKeyDown(KeyCode.A) && swungRight)
+        {
+           rb.velocity = new Vector2(-6, 0);
+            swungRight = false;
+            swungLeft = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -190,6 +233,7 @@ public class characterMovements : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             canJump = true;
+            keepMom = false;
         }
     }
 
