@@ -229,7 +229,7 @@ MonoBehaviour:
   jumpX: 1
   sword: {fileID: 3232620908765367484}
   alert: {fileID: 3606080756167489676}
-  swordCol: {fileID: 0}
+  swordCol: {fileID: 3094573375156062276}
   hasAttacked: 0
   atkTimer: 2
   inAtkRange: 0
