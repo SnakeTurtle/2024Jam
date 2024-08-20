@@ -34,10 +34,12 @@ public class Enemy_AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //On Collision Trigger Enter get the player's pos and then start tracking them
         if (playerFound)
         {
             TrackPlayer();
         }
+        //Circle cast, if player in cirlce begin attack
         inAtkRange = Physics2D.CircleCast(transform.position, atkRange, new Vector2(0, 0),0f,LayerMask.GetMask("Player"));
         if(inAtkRange && !hasAttacked)
         {
@@ -55,6 +57,7 @@ public class Enemy_AI : MonoBehaviour
 
     void Attack()
     {
+        //Attack rotates the sword, the actual damage to the player is in a script attached to the sword obj
         hasAttacked = true;
         swordCol.enabled = true;
         sword.transform.Rotate(0, 0, -60,Space.Self);
@@ -64,15 +67,18 @@ public class Enemy_AI : MonoBehaviour
 
     void ResetSword()
     {
+        //Resets the rotation of sword, the swordCol is the collider of the sword, turn on when attacking turn off when not
         swordCol.enabled = false;
         sword.transform.Rotate(0, 0, 60,Space.Self);
     }
     void TrackPlayer()
     {
+        //Compare the position of enemy to position of player
         float distance = Vector2.Distance(transform.position, player.position);
         Vector2 direction = player.position - transform.position;
-
+        //Move towards the player in a given time frame, this is speed*time
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        //If the player is on the right or left of enemy adjust rotation appropriately
         if(transform.position.x < player.position.x)
         {
             transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -89,6 +95,7 @@ public class Enemy_AI : MonoBehaviour
 
     void Jump(Vector2 dir)
     {
+        //If player is above enemy then jump if not on cooldwon
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.AddForce(new Vector2(jumpX,jumpY)*dir, ForceMode2D.Impulse);
         hasJumped = true;
@@ -107,7 +114,7 @@ public class Enemy_AI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Player"))
+        if (other.gameObject.tag.Equals("Player") && other.GetType().ToString() == "UnityEngine.BoxCollider2D")
         {
             player = other.gameObject.transform;
             playerFound = true;
