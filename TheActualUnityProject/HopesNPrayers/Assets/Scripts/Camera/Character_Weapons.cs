@@ -7,6 +7,7 @@ public class Character_Weapons : MonoBehaviour
     public float timeBetweenShots;
     public bool justShot = false;
 
+    //Set in editor for prefab
     public GameObject biggify;
     public GameObject miniaturize;
     public Transform gun;
@@ -20,6 +21,7 @@ public class Character_Weapons : MonoBehaviour
     }
     private void Update()
     {
+        //this just makes the gun follow the mouse
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 rotation = mousePos - transform.position;
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
