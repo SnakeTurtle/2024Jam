@@ -92,7 +92,6 @@ public class characterMovements : MonoBehaviour
         {
             playerNormal();
             StartCoroutine(playerDash());
-            Debug.Log("dashed");
         }
     }
 
@@ -192,13 +191,11 @@ public class characterMovements : MonoBehaviour
         if (move >= 0 && Input.GetKey(KeyCode.A) == false|| Input.GetKey(KeyCode.D))
         {
             rb.velocity = new Vector2(dashingPower, 0);
-            Debug.Log("dashed right");
         }
         else if (move < 0 && Input.GetKey(KeyCode.D)  == false|| Input.GetKey(KeyCode.A))
         {
             rb.velocity = new Vector2(-1 * dashingPower, 0);
             gameObject.transform.localScale = new Vector3(-0.4f, 0.4f,0);
-            Debug.Log("DASHED LEFT");
         }
 
         //FINISH DASH
