@@ -27,6 +27,8 @@ public class characterMovements : MonoBehaviour
     public float dashingCooldown = 1f;
     private bool keepMom = false;
     Boolean swungRight = true, swungLeft = true;
+    public Rigidbody2D grapObj;
+    private bool canGrap = false;
     BoxCollider2D playerCollider;
 
 
@@ -46,7 +48,6 @@ public class characterMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(canDash);
         if (isDashing == false)
         {
             //SCALING 
@@ -77,7 +78,7 @@ public class characterMovements : MonoBehaviour
 
 
             //GRAPPLE
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && canGrap)
             {
                 playerGrapple();
             }
@@ -163,9 +164,9 @@ public class characterMovements : MonoBehaviour
         }
         else
         {
-            _lineRenderer.SetPosition(0,transform.position);
-            _lineRenderer.SetPosition(1, grapplableObj.transform.position);
-            grapple.connectedAnchor = new Vector2(grapplableObj.transform.position.x, grapplableObj.transform.position.y);
+            _lineRenderer.SetPosition(0, transform.position);
+            _lineRenderer.SetPosition(1, grapObj.transform.position);
+            grapple.connectedAnchor = new Vector2(grapObj.transform.position.x, grapObj.transform.position.y);
             grapple.enabled = true;
             _lineRenderer.enabled = true;
             Debug.Log("Grapple on");
@@ -187,16 +188,17 @@ public class characterMovements : MonoBehaviour
         playerCollider.offset = new Vector2(-0.26922f, 0.0003638f);
 
         //direction of dash
-        if (move < 0 || Input.GetKey(KeyCode.A))
+        if (move >= 0 || Input.GetKey(KeyCode.D))
+        {
+            rb.velocity = new Vector2(dashingPower, 0);
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (move < 0 || Input.GetKey(KeyCode.A))
         {
             rb.velocity = new Vector2(-1 * dashingPower, 0);
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
         }
-        else if (move>=0 || Input.GetKey(KeyCode.D))
-        {
-            rb.velocity = new Vector2(dashingPower, 0);
-            gameObject.transform.rotation = Quaternion.Euler(0,0,0);
-        }
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
         Debug.Log("start dash");
 
         yield return new WaitForSeconds(dashingTime);
@@ -204,7 +206,7 @@ public class characterMovements : MonoBehaviour
         rb.gravityScale = 1f;
         animator.SetBool("isDashing", false);
         playerCollider.size = new Vector2(1, 1);
-        playerCollider.offset = new Vector2(0,0);
+        playerCollider.offset = new Vector2(0, 0);
         Debug.Log("finished dash");
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
@@ -242,6 +244,34 @@ public class characterMovements : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             canJump = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "Grappable")
+        {
+            grapObj = other.attachedRigidbody;
+            canGrap = true;
+            Debug.Log("IN RANGE");
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Grappable")
+        {
+            grapObj = other.attachedRigidbody;
+            canGrap = true;
+            Debug.Log("IN RANGE");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Grappable") {
+            canGrap = false;
+            Debug.Log("OUT OF RANGE");
         }
     }
 
