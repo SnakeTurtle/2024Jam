@@ -90,8 +90,8 @@ public class characterMovements : MonoBehaviour
         //DASH
         if (Input.GetKeyDown(KeyCode.Space) && grapple.enabled == false && canDash)
         {
-            StartCoroutine(playerDash());
             playerNormal();
+            StartCoroutine(playerDash());
             Debug.Log("dashed");
         }
     }
@@ -122,7 +122,7 @@ public class characterMovements : MonoBehaviour
 
     public void playerNormal()
     {
-        gameObject.transform.localScale = new Vector3((float).4, (float)0.4, 1);
+        gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 1);
         charNormal = true;
     }
 
@@ -188,29 +188,31 @@ public class characterMovements : MonoBehaviour
         playerCollider.offset = new Vector2(-0.26922f, 0.0003638f);
 
         //direction of dash
-        if (move >= 0 || Input.GetKey(KeyCode.D))
+
+        if (move >= 0 && Input.GetKey(KeyCode.A) == false|| Input.GetKey(KeyCode.D))
         {
             rb.velocity = new Vector2(dashingPower, 0);
-            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            Debug.Log("dashed right");
         }
-        else if (move < 0 || Input.GetKey(KeyCode.A))
+        else if (move < 0 && Input.GetKey(KeyCode.D)  == false|| Input.GetKey(KeyCode.A))
         {
             rb.velocity = new Vector2(-1 * dashingPower, 0);
-            gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
+            gameObject.transform.localScale = new Vector3(-0.4f, 0.4f,0);
+            Debug.Log("DASHED LEFT");
         }
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
-        Debug.Log("start dash");
 
+        //FINISH DASH
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
         rb.gravityScale = 1f;
         animator.SetBool("isDashing", false);
         playerCollider.size = new Vector2(1, 1);
         playerCollider.offset = new Vector2(0, 0);
-        Debug.Log("finished dash");
+        
+        //READY DASH
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
-        Debug.Log("ready to dash");
+        playerNormal();
     }
 
 
@@ -253,7 +255,6 @@ public class characterMovements : MonoBehaviour
         {
             grapObj = other.attachedRigidbody;
             canGrap = true;
-            Debug.Log("IN RANGE");
         }
     }
 
@@ -263,7 +264,6 @@ public class characterMovements : MonoBehaviour
         {
             grapObj = other.attachedRigidbody;
             canGrap = true;
-            Debug.Log("IN RANGE");
         }
     }
 
@@ -271,7 +271,6 @@ public class characterMovements : MonoBehaviour
     {
         if (other.gameObject.tag == "Grappable") {
             canGrap = false;
-            Debug.Log("OUT OF RANGE");
         }
     }
 
