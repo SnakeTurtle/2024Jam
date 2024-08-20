@@ -37,12 +37,12 @@ public class Miniaturize : MonoBehaviour
 
         }else if (other.gameObject.tag.Equals("bigWall"))
             {
-                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y -1.0308137f, 0);
+                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y -1.2f, 0);
                 other.gameObject.transform.localScale= new Vector3(other.gameObject.transform.localScale.x-0.335024f, other.gameObject.transform.localScale.y-2.417522f, 0);
                 other.gameObject.transform.GetChild(0).transform.position = new Vector3(other.gameObject.transform.GetChild(0).transform.position.x, other.gameObject.transform.GetChild(0).transform.position.y-.272f);
                 other.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                other.gameObject.tag = "Untagged";
             }
-        Debug.Log("Bullet hit: " + other.gameObject.tag.ToString());
         if (!other.gameObject.CompareTag("ignoreBullet") && !other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
