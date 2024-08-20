@@ -14,7 +14,7 @@ public class characterMovements : MonoBehaviour
     public float speed;
     private float move;
     private bool canJump;
-    private bool charNormal =  true;
+    public bool charNormal =  true;
     public Rigidbody2D grapplableObj;
     private DistanceJoint2D grapple;
     public LineRenderer _lineRenderer;
@@ -32,6 +32,7 @@ public class characterMovements : MonoBehaviour
     BoxCollider2D playerCollider;
     public float hitBoxTime;
     public int jump;
+    public int wreckForce;
 
 
     // Start is called before the first frame update
@@ -108,6 +109,16 @@ public class characterMovements : MonoBehaviour
     {
         if (charNormal)
         {
+            if (grapple.enabled)
+            {
+                grapple.enabled = false;
+                _lineRenderer.enabled = false;
+                rb.AddForce(new Vector2(rb.velocity.x+wreckForce, rb.velocity.y));
+                keepMom = true;
+            }else if(canJump == false && keepMom  == false)
+            {
+                rb.velocity = new Vector2(0,rb.velocity.y);
+            }
             playerBigger();
         }
         else
