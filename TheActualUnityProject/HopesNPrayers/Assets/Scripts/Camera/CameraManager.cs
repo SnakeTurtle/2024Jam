@@ -11,13 +11,17 @@ public class CameraManager : MonoBehaviour
     public bool inFight = false;
     public float count = 0;
     Vector2 bound;
+    public Transform locked;
+
+    Transform leftScreen;
+    Transform rightScreen;
 
     void Start()
     {
         instance = this;
         //mainCam.position = positions[currentPos].position;
-        Transform leftScreen = mainCam.transform.GetChild(0);
-        Transform rightScreen = mainCam.transform.GetChild(1);
+        leftScreen = mainCam.transform.GetChild(0);
+        rightScreen = mainCam.transform.GetChild(1);
         bound = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCam.position.z));
         leftScreen.position = new Vector3(-bound.x, 0, 0);
         rightScreen.position = new Vector3(bound.x, 0, 0);
@@ -68,6 +72,14 @@ public class CameraManager : MonoBehaviour
         if (inFight && Input.GetKeyDown(KeyCode.Space))
         {
             endFight();
+        }
+        if(mainCam.position.x > 10)
+        {
+            mainCam.position = locked.position;
+            BoxCollider2D L = leftScreen.gameObject.GetComponent<BoxCollider2D>();
+            BoxCollider2D R = rightScreen.gameObject.GetComponent<BoxCollider2D>();
+            L.isTrigger = false;
+            R.isTrigger = false;
         }
     }
 }

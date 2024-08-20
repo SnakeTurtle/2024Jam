@@ -25,6 +25,10 @@ public class characterAttack : MonoBehaviour
             {
                 Destroy(other.gameObject.transform.parent.gameObject);
             }
+            if (other.gameObject.CompareTag("Boss"))
+            {
+                other.GetComponent<BossLife>().takeLive();
+            }
         }
     }
 }

@@ -240,7 +240,7 @@ public class characterMovements : MonoBehaviour
     //Check for Ground
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Scalable") || other.gameObject.CompareTag("DeScalable"))
         {
             canJump = true;
             keepMom = false;
@@ -249,7 +249,7 @@ public class characterMovements : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Scalable") || other.gameObject.CompareTag("DeScalable"))
         {
             canJump = false;
         }

@@ -17,6 +17,7 @@ TagManager:
   - longatableFloor
   - destroyBullet
   - weakWall
+  - Boss
   layers:
   - Default
   - TransparentFX
