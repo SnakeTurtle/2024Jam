@@ -17,9 +17,9 @@ public class Spawn_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!justSpawned && CameraManager.instance.inFight)
+        if (!justSpawned)
         {
-            Instantiate(enemy, transform.position, Quaternion.identity);
+            Instantiate(enemy, new Vector2(transform.position.x + Random.Range(0, 5), transform.position.y), Quaternion.identity);
             justSpawned = true;
             Invoke("ResetSpawnTimer",timeBetweenSpawn);
         }
