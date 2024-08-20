@@ -16,6 +16,7 @@ public class CameraManager : MonoBehaviour
     Transform leftScreen;
     Transform rightScreen;
 
+    float lockpos;
     void Start()
     {
         instance = this;
@@ -73,7 +74,7 @@ public class CameraManager : MonoBehaviour
         {
             endFight();
         }
-        if(mainCam.position.x > 10)
+        if(mainCam.position.x > lockpos)
         {
             mainCam.position = locked.position;
             BoxCollider2D L = leftScreen.gameObject.GetComponent<BoxCollider2D>();
