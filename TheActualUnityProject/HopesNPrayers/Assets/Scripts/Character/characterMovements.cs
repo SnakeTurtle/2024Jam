@@ -228,7 +228,7 @@ public class characterMovements : MonoBehaviour
             swungLeft = true;
         }
     }
-
+    //Check for Ground
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
@@ -246,6 +246,7 @@ public class characterMovements : MonoBehaviour
         }
     }
 
+    //Check for Grapple Objects
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Grappable")
