@@ -32,7 +32,6 @@ public class Miniaturize : MonoBehaviour
             if (other.gameObject.layer.ToString().Equals("6"))
             {
                 other.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, -3.277826f, 0f);
             }
 
         }else if (other.gameObject.tag.Equals("bigWall"))

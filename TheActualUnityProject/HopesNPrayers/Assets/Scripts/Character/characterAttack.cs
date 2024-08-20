@@ -5,10 +5,11 @@ using UnityEngine;
 public class characterAttack : MonoBehaviour
 {
     public characterMovements charMoves;
+    public int count;
     // Start is called before the first frame update
     void Start()
     {
-        //charMoves = GetComponent<characterMovements>();
+        count = 0;
     }
 
     // Update is called once per frame
@@ -24,6 +25,7 @@ public class characterAttack : MonoBehaviour
             if (other.gameObject.CompareTag("Weakpoint"))
             {
                 Destroy(other.gameObject.transform.parent.gameObject);
+                count++;
             }
         }
     }

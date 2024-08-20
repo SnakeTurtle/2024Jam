@@ -38,7 +38,6 @@ public class Biggify : MonoBehaviour
                 other.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
             if (other.gameObject.layer.ToString().Equals("6")){
-                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, -2.881526f, 0);
                 other.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
             
@@ -51,7 +50,7 @@ public class Biggify : MonoBehaviour
         }
 
         Debug.Log("Bullet hit: " + other.gameObject.tag.ToString());
-        if (!other.gameObject.CompareTag("ignoreBullet") && !other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("destroyBullet"))
+        if (!other.gameObject.CompareTag("ignoreBullet") && !other.gameObject.CompareTag("Player") && !other.gameObject.CompareTag("Weakpoint") && !other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("destroyBullet"))
         { 
             Destroy(gameObject);
         }
