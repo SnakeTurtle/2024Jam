@@ -17,9 +17,8 @@ public class Miniaturize : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         Vector3 rotation = transform.position - mousePos;
         rb.velocity = new Vector2(direction.x, direction.y).normalized * shootForce;
-        float rot = Mathf.Atan2(rotation.x, rotation.y) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, rot);
     }
+
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -28,8 +27,25 @@ public class Miniaturize : MonoBehaviour
             Vector2 initialScale = other.gameObject.transform.localScale;
             other.gameObject.transform.localScale = initialScale / sizeModifier;
             other.gameObject.tag = "Scalable";
-            
+            other.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+
+            if (other.gameObject.layer.ToString().Equals("6"))
+            {
+                other.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, -3.277826f, 0f);
+            }
+
+        }else if (other.gameObject.tag.Equals("bigWall"))
+            {
+                other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, other.gameObject.transform.position.y -1.0308137f, 0);
+                other.gameObject.transform.localScale= new Vector3(other.gameObject.transform.localScale.x-0.335024f, other.gameObject.transform.localScale.y-2.417522f, 0);
+                other.gameObject.transform.GetChild(0).transform.position = new Vector3(other.gameObject.transform.GetChild(0).transform.position.x, other.gameObject.transform.GetChild(0).transform.position.y-.272f);
+                other.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+        Debug.Log("Bullet hit: " + other.gameObject.tag.ToString());
+        if (!other.gameObject.CompareTag("ignoreBullet") && !other.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

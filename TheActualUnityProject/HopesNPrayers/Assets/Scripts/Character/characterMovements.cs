@@ -20,7 +20,7 @@ public class characterMovements : MonoBehaviour
     public LineRenderer _lineRenderer;
     public Animator animator;
     public float dashRate = 2f;
-    float dashingTime = .2f;
+    public float dashingTime = .4f;
     public bool canDash;
     public bool isDashing = false;
     public float dashingPower = 20f;
@@ -30,6 +30,8 @@ public class characterMovements : MonoBehaviour
     public Rigidbody2D grapObj;
     private bool canGrap = false;
     BoxCollider2D playerCollider;
+    public float hitBoxTime;
+    public int jump;
 
 
     // Start is called before the first frame update
@@ -65,7 +67,7 @@ public class characterMovements : MonoBehaviour
                 grappleMovement();
             }
             else{
-                if (keepMom == false)
+                if (keepMom == false && charNormal == true)
                 {
                     playerMovement();
                 }
@@ -123,6 +125,8 @@ public class characterMovements : MonoBehaviour
     {
         gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 1);
         charNormal = true;
+        playerCollider.size = new Vector2(1, 1);
+        playerCollider.offset = new Vector2(0, 0);
     }
 
 
@@ -137,16 +141,10 @@ public class characterMovements : MonoBehaviour
 
     public void playerJump()
     {
-        int jump;
         if (charNormal)
         {
-            jump = 350;
+            rb.AddForce(new Vector2(rb.velocity.x, jump));
         }
-        else
-        {
-            jump = 200;
-        }
-        rb.AddForce(new Vector2(rb.velocity.x, jump));
     }
 
 
@@ -183,8 +181,8 @@ public class characterMovements : MonoBehaviour
         canDash = false;
         isDashing = true;
         rb.gravityScale = 0f;
-        playerCollider.size = new Vector2(2.33885f, 0.454273f);
-        playerCollider.offset = new Vector2(-0.26922f, 0.0003638f);
+        playerCollider.size = new Vector2(2.33885f, 0.7601432f);
+        playerCollider.offset = new Vector2(-0.26922f, -0.1525713f);
 
         //direction of dash
 
@@ -203,8 +201,8 @@ public class characterMovements : MonoBehaviour
         isDashing = false;
         rb.gravityScale = 1f;
         animator.SetBool("isDashing", false);
-        playerCollider.size = new Vector2(1, 1);
-        playerCollider.offset = new Vector2(0, 0);
+
+        Invoke("playerNormal", hitBoxTime);
         
         //READY DASH
         yield return new WaitForSeconds(dashingCooldown);
