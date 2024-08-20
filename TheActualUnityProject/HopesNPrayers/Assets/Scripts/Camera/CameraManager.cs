@@ -12,6 +12,7 @@ public class CameraManager : MonoBehaviour
     public float count = 0;
     Vector2 bound;
     public Transform locked;
+    public float position;
 
     Transform leftScreen;
     Transform rightScreen;
@@ -73,7 +74,7 @@ public class CameraManager : MonoBehaviour
         {
             endFight();
         }
-        if(mainCam.position.x > 10)
+        if(mainCam.position.x > position)
         {
             mainCam.position = locked.position;
             BoxCollider2D L = leftScreen.gameObject.GetComponent<BoxCollider2D>();
