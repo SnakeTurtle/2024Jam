@@ -33,7 +33,7 @@ public class characterMovements : MonoBehaviour
     public float hitBoxTime;
     public int jump;
     public int wreckForce;
-    public bool safe;
+
 
     // Start is called before the first frame update
     void Start()
@@ -209,7 +209,6 @@ public class characterMovements : MonoBehaviour
 
         //FINISH DASH
         yield return new WaitForSeconds(dashingTime);
-        
         isDashing = false;
         rb.gravityScale = 1f;
         animator.SetBool("isDashing", false);
@@ -248,15 +247,6 @@ public class characterMovements : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-            {
-                canJump = true;
-                
-            }
-    }
-
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Scalable") || other.gameObject.CompareTag("DeScalable"))
@@ -281,9 +271,6 @@ public class characterMovements : MonoBehaviour
         {
             grapObj = other.attachedRigidbody;
             canGrap = true;
-        }else if(other.gameObject.tag == "Ground")
-        {
-            safe = false;
         }
     }
 
@@ -291,22 +278,6 @@ public class characterMovements : MonoBehaviour
     {
         if (other.gameObject.tag == "Grappable") {
             canGrap = false;
-        }
-        else if (other.gameObject.tag == "Ground")
-        {
-            safe = true;
-        }
-    }
-
-    Boolean safeToGrow()
-    {
-        if (safe)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 

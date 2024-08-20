@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class tutorialText : MonoBehaviour
 {
-    public Text text1, text2, text2a, text2b, text3, text4, text5, text6, text6a, text7, text8,text9, text10;
+    public Text text1, text2, text2a, text2b, text3, text4, text5, text6, text6a, text7, text8,text9;
     public EdgeOfScreen screenLeft;
     public EdgeOfScreenRight screenRight;
     public float screenNum;
@@ -74,13 +74,6 @@ public class tutorialText : MonoBehaviour
         {
             text8.enabled=false;
             text9.enabled=true;
-        }else if(screenNum == 9)
-        {
-            text9.enabled = false;
-            text10.enabled = true;
-        }
-        else{
-            text10.enabled = false;
         }
     }
 }
