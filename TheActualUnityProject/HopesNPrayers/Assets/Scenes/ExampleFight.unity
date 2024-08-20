@@ -1552,7 +1552,6 @@ GameObject:
   - component: {fileID: 955265603}
   - component: {fileID: 955265602}
   - component: {fileID: 955265601}
-  - component: {fileID: 955265600}
   m_Layer: 0
   m_Name: Grapple
   m_TagString: Untagged
@@ -1560,18 +1559,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &955265600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 955265599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a0b05658d309d40a21eea1a352608c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &955265601
 Rigidbody2D:
   serializedVersion: 4
@@ -2750,7 +2737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5461378220896459052, guid: 0029b49c48f6ced41b752f4901761a84, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
