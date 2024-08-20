@@ -14,6 +14,11 @@ public class CameraManager : MonoBehaviour
     {
         instance = this;
         mainCam.position = positions[currentPos].position;
+        Transform leftScreen = mainCam.transform.GetChild(0);
+        Transform rightScreen = mainCam.transform.GetChild(1);
+        Vector2 bound = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCam.position.z));
+        leftScreen.position = new Vector3(-bound.x, 0, 0);
+        rightScreen.position = new Vector3(bound.x, 0, 0);
     }
 
     public void moveCamLeft()

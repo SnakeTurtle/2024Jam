@@ -10,6 +10,7 @@ TagManager:
   - FightFinished
   - Scalable
   - DeScalable
+  - Enemy
   layers:
   - Default
   - TransparentFX
