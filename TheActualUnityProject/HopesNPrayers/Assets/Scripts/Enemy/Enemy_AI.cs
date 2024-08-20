@@ -41,7 +41,8 @@ public class Enemy_AI : MonoBehaviour
         }
         //Circle cast, if player in cirlce begin attack
         inAtkRange = Physics2D.CircleCast(transform.position, atkRange, new Vector2(0, 0),0f,LayerMask.GetMask("Player"));
-        if(inAtkRange && !hasAttacked)
+        
+        if (inAtkRange && !hasAttacked)
         {
             Attack();
         }
@@ -81,18 +82,25 @@ public class Enemy_AI : MonoBehaviour
         //If the player is on the right or left of enemy adjust rotation appropriately
         if(transform.position.x < player.position.x)
         {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            Invoke("changeRotationLeft",2f);
         }
         else if (transform.position.x > player.position.x)
         {
-            transform.rotation = new Quaternion(0, 180, 0, 0);
+            Invoke("changeRotationRight", 2f);
         }
         if(player.position.y > transform.position.y && !hasJumped)
         {
             Jump(direction);
         }
     }
-
+    void changeRotationLeft()
+    {
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+    }
+    void changeRotationRight()
+    {
+        transform.rotation = new Quaternion(0, 180, 0, 0);
+    }
     void Jump(Vector2 dir)
     {
         //If player is above enemy then jump if not on cooldwon
@@ -125,6 +133,6 @@ public class Enemy_AI : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, atkRange);
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.red;
     }
 }
