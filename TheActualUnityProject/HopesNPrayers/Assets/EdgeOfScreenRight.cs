@@ -18,8 +18,10 @@ public class EdgeOfScreenRight : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Player"))
+        if (other.gameObject.tag.Equals("Player") && !CameraManager.instance.inFight && other.GetType().ToString() == "UnityEngine.BoxCollider2D")
         {
+            print(other.GetType().ToString());
+            print(other.GetType().ToString() == "UnityEngine.CircleCollider2D");
             CameraManager.instance.moveCamRight();
         }
     }
