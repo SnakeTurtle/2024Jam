@@ -254,7 +254,7 @@ public class characterMovements : MonoBehaviour
             {
                 canJump = true;
                 
-            }a
+            }
     }
 
     private void OnCollisionExit2D(Collision2D other)

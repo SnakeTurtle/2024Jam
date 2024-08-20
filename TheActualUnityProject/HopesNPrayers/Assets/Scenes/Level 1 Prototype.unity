@@ -1907,6 +1907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 73004315}
   healthAmount: 100
+  deathScreen: {fileID: 0}
 --- !u!1 &966150527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2456,67 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.0001}
   m_EdgeRadius: 0
+--- !u!1001 &1225411500
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2886
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.8768
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709375943263066182, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393447127638567062, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_Name
+      value: Enemy with Front WeakSpot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393447127638567062, guid: 799e6cbde5600d14481444deef280041, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 799e6cbde5600d14481444deef280041, type: 3}
 --- !u!1 &1290082977
 GameObject:
   m_ObjectHideFlags: 0
@@ -3719,6 +3781,7 @@ MonoBehaviour:
   mainCam: {fileID: 1084395423}
   inFight: 0
   count: 0
+  locked: {fileID: 0}
 --- !u!4 &2048051740
 Transform:
   m_ObjectHideFlags: 0
@@ -4120,3 +4183,4 @@ SceneRoots:
   - {fileID: 1607419302}
   - {fileID: 189859991}
   - {fileID: 498852458}
+  - {fileID: 1225411500}
